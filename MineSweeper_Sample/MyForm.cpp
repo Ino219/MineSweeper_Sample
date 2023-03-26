@@ -11,7 +11,7 @@ System::Void MineSweeperSample::MyForm::MyForm_Load(System::Object ^ sender, Sys
 	//フィールドの設定
 	mathList = gcnew List<math^>;
 
-	//行数と列数//
+	//行数と列数
 	mathNumSet(10);
 
 	for (int i = 0; i < columnsNum; i++) {
