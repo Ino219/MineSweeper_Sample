@@ -5,6 +5,7 @@ namespace MineSweeperSample {
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
+	using namespace System::Collections::Generic;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
@@ -21,6 +22,15 @@ namespace MineSweeperSample {
 			//
 			//TODO: ここにコンストラクター コードを追加します
 			//
+
+			//最初の処理用のフラグ
+			first = true;
+			//フィールドの初期化
+			mathList = gcnew List<math^>;
+			//マスの一辺の長さ
+			mathLength = 10;
+			//ボムの数指定
+			bombNum = 10;
 		}
 
 	protected:
@@ -119,9 +129,11 @@ namespace MineSweeperSample {
 			bool check;
 		};
 		bool first;
-		System::Collections::Generic::List<math^>^ mathList;
+		int mathLength;
+		List<math^>^ mathList;
 		int columnsNum;
 		int rowsNum;
+		int bombNum;
 		
 		
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e);
@@ -141,5 +153,6 @@ namespace MineSweeperSample {
 	private: System::Void reset_Click(System::Object^  sender, System::EventArgs^  e);
 	private: System::Void Field_DGV_CellMouseClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e);
 	private: System::Void CheckButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void mathList_init();
 };
 }

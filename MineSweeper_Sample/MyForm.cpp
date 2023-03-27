@@ -6,13 +6,10 @@ using namespace System::Drawing;
 
 System::Void MineSweeperSample::MyForm::MyForm_Load(System::Object ^ sender, System::EventArgs ^ e)
 {
-	//最初の処理用のフラグ
-	first = true;
+	
 	//フィールドの設定
-	mathList = gcnew List<math^>;
-
 	//行数と列数
-	mathNumSet(10);
+	mathNumSet(mathLength);
 
 	for (int i = 0; i < columnsNum; i++) {
 		DataGridViewButtonColumn^ buttons = gcnew DataGridViewButtonColumn();
@@ -31,8 +28,9 @@ System::Void MineSweeperSample::MyForm::MyForm_Load(System::Object ^ sender, Sys
 			mathList->Add(temp);
 		}
 	}
-}
 
+	mathList_init();
+}
 
 System::Void MineSweeperSample::MyForm::FirstSweep(int x, int y)
 {
@@ -51,7 +49,7 @@ System::Void MineSweeperSample::MyForm::FirstSweep(int x, int y)
 		if (i >= columnsNum)continue;
 		for (int j = y - Yrange_; j < y + Yrange+1; j++) {
 			if (j < 0)continue;
-			if (j > rowsNum)continue;
+			if (j >= rowsNum)continue;
 
 			Field_DGV[i, j]->ReadOnly = true;
 			Field_DGV[i, j]->Style->BackColor = Color::Gray;
@@ -68,7 +66,7 @@ System::Void MineSweeperSample::MyForm::FirstSweep(int x, int y)
 
 System::Void MineSweeperSample::MyForm::StandardSweep(int x, int y)
 {
-	bool continueFlag = false;
+	//bool continueFlag = false;
 	//while (continueFlag == false) {
 		if (JudgeBomb(x, y)) {
 			//クリックしたセルがボムであれば、ゲームオーバー
@@ -91,7 +89,7 @@ System::Void MineSweeperSample::MyForm::StandardSweep(int x, int y)
 						if (j >= rowsNum)continue;
 
 						if (JudgeBomb(i, j)) {
-							continueFlag = true;
+							//continueFlag = true;
 							continue;
 						}
 						Field_DGV[i, j]->ReadOnly = true;
@@ -110,7 +108,7 @@ System::Void MineSweeperSample::MyForm::BombSet(int column,int row)
 {
 	//ボムの設定
 	//ボムの数
-	int bombNum = 10;
+	//int bombNum = 5;
 
 	for (int n = 0; n < bombNum; n++) {
 		//乱数を用いた座標の作成
@@ -143,6 +141,7 @@ int MineSweeperSample::MyForm::JudgeAround(int x, int y)
 		for (int j = y - around; j < y + around + 1; j++) {
 			if (j < 0)continue;
 			if (i >= rowsNum)continue;
+
 			for each (math^ var in mathList)
 			{
 				if ((var->x == i) && (var->y == j) && var->bomb == true) {
@@ -244,9 +243,7 @@ System::Void MineSweeperSample::MyForm::AllUpdateBombNum()
 
 System::Void MineSweeperSample::MyForm::reset_Click(System::Object ^ sender, System::EventArgs ^ e)
 {
-	
-	MyForm^ myForm_New = gcnew MyForm();
-	
+	mathList_init();
 	return System::Void();
 }
 
@@ -310,6 +307,28 @@ System::Void MineSweeperSample::MyForm::CheckButton_Click(System::Object ^ sende
 	else {
 		MessageBox::Show("GAME CLEAR");
 	}
+
+	return System::Void();
+}
+
+System::Void MineSweeperSample::MyForm::mathList_init()
+{
+	for (int i = 0; i < columnsNum; i++) {
+		for (int j = 0; j < rowsNum; j++) {
+			Field_DGV[i, j]->ReadOnly = false;
+			Field_DGV[i, j]->Style->BackColor = Color::LightGray;
+			Field_DGV[i, j]->Value = "";
+		}
+	}
+
+	for each (math^ var in mathList)
+	{
+		var->bomb = false;
+		var->mark = false;
+		var->check = false;
+	}
+
+	first = true;
 
 	return System::Void();
 }
