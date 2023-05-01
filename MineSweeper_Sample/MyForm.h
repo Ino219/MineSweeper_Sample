@@ -47,6 +47,13 @@ namespace MineSweeperSample {
 	private: System::Windows::Forms::DataGridView^  Field_DGV;
 	private: System::Windows::Forms::Button^  reset;
 	private: System::Windows::Forms::Button^  CheckButton;
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::TextBox^  mathNum;
+
+	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::TextBox^  bomb;
+
+	private: System::Windows::Forms::Button^  SetButton;
 	protected:
 
 	protected:
@@ -67,16 +74,20 @@ namespace MineSweeperSample {
 			this->Field_DGV = (gcnew System::Windows::Forms::DataGridView());
 			this->reset = (gcnew System::Windows::Forms::Button());
 			this->CheckButton = (gcnew System::Windows::Forms::Button());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->mathNum = (gcnew System::Windows::Forms::TextBox());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->bomb = (gcnew System::Windows::Forms::TextBox());
+			this->SetButton = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Field_DGV))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// Field_DGV
 			// 
 			this->Field_DGV->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
-			this->Field_DGV->AutoSizeRowsMode = System::Windows::Forms::DataGridViewAutoSizeRowsMode::AllCells;
 			this->Field_DGV->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->Field_DGV->ColumnHeadersVisible = false;
-			this->Field_DGV->Location = System::Drawing::Point(13, 13);
+			this->Field_DGV->Location = System::Drawing::Point(13, 12);
 			this->Field_DGV->Name = L"Field_DGV";
 			this->Field_DGV->RowHeadersVisible = false;
 			this->Field_DGV->RowTemplate->Height = 21;
@@ -86,7 +97,7 @@ namespace MineSweeperSample {
 			// 
 			// reset
 			// 
-			this->reset->Location = System::Drawing::Point(13, 226);
+			this->reset->Location = System::Drawing::Point(283, 12);
 			this->reset->Name = L"reset";
 			this->reset->Size = System::Drawing::Size(75, 23);
 			this->reset->TabIndex = 1;
@@ -96,7 +107,7 @@ namespace MineSweeperSample {
 			// 
 			// CheckButton
 			// 
-			this->CheckButton->Location = System::Drawing::Point(167, 226);
+			this->CheckButton->Location = System::Drawing::Point(283, 41);
 			this->CheckButton->Name = L"CheckButton";
 			this->CheckButton->Size = System::Drawing::Size(75, 23);
 			this->CheckButton->TabIndex = 2;
@@ -104,11 +115,58 @@ namespace MineSweeperSample {
 			this->CheckButton->UseVisualStyleBackColor = true;
 			this->CheckButton->Click += gcnew System::EventHandler(this, &MyForm::CheckButton_Click);
 			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(283, 86);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(67, 12);
+			this->label1->TabIndex = 3;
+			this->label1->Text = L"ƒ}ƒX”(ˆê•Ó)";
+			// 
+			// mathNum
+			// 
+			this->mathNum->Location = System::Drawing::Point(283, 102);
+			this->mathNum->Name = L"mathNum";
+			this->mathNum->Size = System::Drawing::Size(75, 19);
+			this->mathNum->TabIndex = 4;
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(283, 142);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(37, 12);
+			this->label2->TabIndex = 5;
+			this->label2->Text = L"ƒ{ƒ€”";
+			// 
+			// bomb
+			// 
+			this->bomb->Location = System::Drawing::Point(283, 158);
+			this->bomb->Name = L"bomb";
+			this->bomb->Size = System::Drawing::Size(75, 19);
+			this->bomb->TabIndex = 6;
+			// 
+			// SetButton
+			// 
+			this->SetButton->Location = System::Drawing::Point(283, 198);
+			this->SetButton->Name = L"SetButton";
+			this->SetButton->Size = System::Drawing::Size(75, 23);
+			this->SetButton->TabIndex = 7;
+			this->SetButton->Text = L"Set";
+			this->SetButton->UseVisualStyleBackColor = true;
+			this->SetButton->Click += gcnew System::EventHandler(this, &MyForm::SetButton_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 261);
+			this->ClientSize = System::Drawing::Size(383, 261);
+			this->Controls->Add(this->SetButton);
+			this->Controls->Add(this->bomb);
+			this->Controls->Add(this->label2);
+			this->Controls->Add(this->mathNum);
+			this->Controls->Add(this->label1);
 			this->Controls->Add(this->CheckButton);
 			this->Controls->Add(this->reset);
 			this->Controls->Add(this->Field_DGV);
@@ -117,6 +175,7 @@ namespace MineSweeperSample {
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Field_DGV))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -154,5 +213,6 @@ namespace MineSweeperSample {
 	private: System::Void Field_DGV_CellMouseClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e);
 	private: System::Void CheckButton_Click(System::Object^  sender, System::EventArgs^  e);
 	private: System::Void mathList_init();
+	private: System::Void SetButton_Click(System::Object^  sender, System::EventArgs^  e);
 };
 }

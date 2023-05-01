@@ -7,7 +7,7 @@ using namespace System::Drawing;
 System::Void MineSweeperSample::MyForm::MyForm_Load(System::Object ^ sender, System::EventArgs ^ e)
 {
 	
-	//フィールドの設定
+	/*//フィールドの設定
 	//行数と列数
 	mathNumSet(mathLength);
 
@@ -30,6 +30,7 @@ System::Void MineSweeperSample::MyForm::MyForm_Load(System::Object ^ sender, Sys
 	}
 
 	mathList_init();
+	*/
 }
 
 System::Void MineSweeperSample::MyForm::FirstSweep(int x, int y)
@@ -330,6 +331,50 @@ System::Void MineSweeperSample::MyForm::mathList_init()
 
 	first = true;
 
+	return System::Void();
+}
+
+System::Void MineSweeperSample::MyForm::SetButton_Click(System::Object ^ sender, System::EventArgs ^ e)
+{
+	//フィールドの設定
+	//行数と列数
+	int res;
+	if (int::TryParse(mathNum->Text, res)) {
+		mathNumSet(res);
+	}
+	else {
+		MessageBox::Show("マス数が入力されていないか、不正な値です");
+		return;
+	}
+	int res2;
+	if (int::TryParse(bomb->Text, res2)) {
+		bombNum=res2;
+	}
+	else {
+		MessageBox::Show("ボム数が入力されていないか、不正な値です");
+		return;
+	}
+	
+
+	for (int i = 0; i < columnsNum; i++) {
+		DataGridViewButtonColumn^ buttons = gcnew DataGridViewButtonColumn();
+		Field_DGV->Columns->Add(buttons);
+		math^ temp = gcnew math();
+		temp->x = i;
+		temp->y = 0;
+		mathList->Add(temp);
+	}
+	for (int j = 1; j < rowsNum; j++) {
+		Field_DGV->Rows->Add();
+		for (int j2 = 0; j2 < columnsNum; j2++) {
+			math^ temp = gcnew math();
+			temp->x = j2;
+			temp->y = j;
+			mathList->Add(temp);
+		}
+	}
+
+	mathList_init();
 	return System::Void();
 }
 
