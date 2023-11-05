@@ -209,6 +209,7 @@ namespace MineSweeperSample {
 	private: System::Void SetMark(int x, int y);
 	private: System::Void SetBomb(int x, int y);
 	private: System::Void SetCheck(int x, int y,bool InOut);
+
 	private: System::Void AllUpdateBombNum();
 	private: System::Void reset_Click(System::Object^  sender, System::EventArgs^  e);
 	private: System::Void Field_DGV_CellMouseClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e);

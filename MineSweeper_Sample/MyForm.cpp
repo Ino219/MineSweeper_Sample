@@ -240,7 +240,9 @@ System::Void MineSweeperSample::MyForm::Field_DGV_CellMouseClick(System::Object 
 	}
 	//左クリックだった場合
 	else {
-		if (Field_DGV[e->ColumnIndex, e->RowIndex]->ReadOnly != true) {
+		if (Field_DGV[e->ColumnIndex, e->RowIndex]->ReadOnly == true) return;
+		if (JudgeCheck(e->ColumnIndex, e->RowIndex) == true) return;
+
 			//押したマスを潰す
 			Field_DGV[e->ColumnIndex, e->RowIndex]->ReadOnly = true;
 			Field_DGV[e->ColumnIndex, e->RowIndex]->Style->BackColor = Color::Gray;
@@ -264,7 +266,7 @@ System::Void MineSweeperSample::MyForm::Field_DGV_CellMouseClick(System::Object 
 					}
 				}
 			}
-		}
+		
 	}
 	return System::Void();
 }
