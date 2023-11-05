@@ -6,36 +6,12 @@ using namespace System::Drawing;
 
 System::Void MineSweeperSample::MyForm::MyForm_Load(System::Object ^ sender, System::EventArgs ^ e)
 {
-	
-	/*//フィールドの設定
-	//行数と列数
-	mathNumSet(mathLength);
 
-	for (int i = 0; i < columnsNum; i++) {
-		DataGridViewButtonColumn^ buttons = gcnew DataGridViewButtonColumn();
-		Field_DGV->Columns->Add(buttons);
-		math^ temp = gcnew math();
-		temp->x = i;
-		temp->y = 0;
-		mathList->Add(temp);
-	}
-	for (int j = 1; j < rowsNum; j++) {
-		Field_DGV->Rows->Add();
-		for (int j2 = 0; j2 < columnsNum; j2++) {
-			math^ temp = gcnew math();
-			temp->x = j2;
-			temp->y = j;
-			mathList->Add(temp);
-		}
-	}
-
-	mathList_init();
-	*/
 }
-
+//最初のスイープ時の処理
 System::Void MineSweeperSample::MyForm::FirstSweep(int x, int y)
 {
-	//どの範囲までスイープするかを決定
+	//どの範囲までスイープするかを乱数で決定
 	Random^ Range = gcnew Random();
 	//始点座標
 	int Xrange = Range->Next(1, columnsNum / 2);
@@ -48,6 +24,7 @@ System::Void MineSweeperSample::MyForm::FirstSweep(int x, int y)
 		//フィールド範囲外であれば、ループ脱出
 		if (i < 0)continue;
 		if (i >= columnsNum)continue;
+
 		for (int j = y - Yrange_; j < y + Yrange+1; j++) {
 			if (j < 0)continue;
 			if (j >= rowsNum)continue;
@@ -250,6 +227,7 @@ System::Void MineSweeperSample::MyForm::reset_Click(System::Object ^ sender, Sys
 
 System::Void MineSweeperSample::MyForm::Field_DGV_CellMouseClick(System::Object ^ sender, System::Windows::Forms::DataGridViewCellMouseEventArgs ^ e)
 {
+	//右クリックだった場合
 	if (e->Button == System::Windows::Forms::MouseButtons::Right) {
 		if (JudgeCheck(e->ColumnIndex, e->RowIndex)) {
 			Field_DGV[e->ColumnIndex, e->RowIndex]->Value = "";
@@ -260,27 +238,30 @@ System::Void MineSweeperSample::MyForm::Field_DGV_CellMouseClick(System::Object 
 			SetCheck(e->ColumnIndex, e->RowIndex, true);
 		}
 	}
+	//左クリックだった場合
 	else {
-		//押したマスを潰す
-		Field_DGV[e->ColumnIndex, e->RowIndex]->ReadOnly = true;
-		Field_DGV[e->ColumnIndex, e->RowIndex]->Style->BackColor = Color::Gray;
-		SetMark(e->ColumnIndex, e->RowIndex);
-
-		if (first == true) {
-			//最初のスイープは絶対にボムに当たらない
-			FirstSweep(e->ColumnIndex, e->RowIndex);
-			first = false;
-		}
-		else {
-			for each (math^ var in mathList)
-			{
-				if (JudgeBomb(e->ColumnIndex, e->RowIndex)) {
-					Field_DGV[e->ColumnIndex, e->RowIndex]->Value = "●";
-					MessageBox::Show("GameOver");
-					break;
-				}
-				else {
-					StandardSweep(e->ColumnIndex, e->RowIndex);
+		if (Field_DGV[e->ColumnIndex, e->RowIndex]->ReadOnly != true) {
+			//押したマスを潰す
+			Field_DGV[e->ColumnIndex, e->RowIndex]->ReadOnly = true;
+			Field_DGV[e->ColumnIndex, e->RowIndex]->Style->BackColor = Color::Gray;
+			SetMark(e->ColumnIndex, e->RowIndex);
+			//最初のスイープの場合
+			if (first == true) {
+				//最初のスイープは絶対にボムに当たらない
+				FirstSweep(e->ColumnIndex, e->RowIndex);
+				first = false;
+			}
+			else {
+				for each (math^ var in mathList)
+				{
+					if (JudgeBomb(e->ColumnIndex, e->RowIndex)) {
+						Field_DGV[e->ColumnIndex, e->RowIndex]->Value = "●";
+						MessageBox::Show("GameOver");
+						break;
+					}
+					else {
+						StandardSweep(e->ColumnIndex, e->RowIndex);
+					}
 				}
 			}
 		}
@@ -336,10 +317,14 @@ System::Void MineSweeperSample::MyForm::mathList_init()
 
 System::Void MineSweeperSample::MyForm::SetButton_Click(System::Object ^ sender, System::EventArgs ^ e)
 {
+	//Field_DGV = gcnew DataGridView();
+	Field_DGV->Rows->Clear();
+	Field_DGV->Columns->Clear();
 	//フィールドの設定
 	//行数と列数
 	int res;
 	if (int::TryParse(mathNum->Text, res)) {
+		//columnsNumとrowNumに数値をセット
 		mathNumSet(res);
 	}
 	else {
@@ -348,6 +333,7 @@ System::Void MineSweeperSample::MyForm::SetButton_Click(System::Object ^ sender,
 	}
 	int res2;
 	if (int::TryParse(bomb->Text, res2)) {
+		//ボムの数をセット
 		bombNum=res2;
 	}
 	else {
@@ -364,15 +350,27 @@ System::Void MineSweeperSample::MyForm::SetButton_Click(System::Object ^ sender,
 		temp->y = 0;
 		mathList->Add(temp);
 	}
+	int rowsHeight = 0;
 	for (int j = 1; j < rowsNum; j++) {
 		Field_DGV->Rows->Add();
-		for (int j2 = 0; j2 < columnsNum; j2++) {
+		rowsHeight = Field_DGV->Rows[Field_DGV->RowCount-1]->Height;
+;		for (int j2 = 0; j2 < columnsNum; j2++) {
 			math^ temp = gcnew math();
 			temp->x = j2;
 			temp->y = j;
 			mathList->Add(temp);
 		}
 	}
+	Field_DGV->Height = rowsHeight * rowsNum+3;
+
+	int actHeight = Field_DGV->Height + Field_DGV->Location.Y + SystemInformation::CaptionHeight;
+	int appHeight = MyForm::Height;
+	if (actHeight > appHeight) {
+		int diff = actHeight - appHeight;
+		//MessageBox::Show("プレイ画面がアプリケーションの表示範囲に収まっていません");
+		MyForm::Height += diff+50;
+	}
+
 
 	mathList_init();
 	return System::Void();

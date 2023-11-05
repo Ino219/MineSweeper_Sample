@@ -84,14 +84,15 @@ namespace MineSweeperSample {
 			// 
 			// Field_DGV
 			// 
+			this->Field_DGV->AllowUserToResizeColumns = false;
+			this->Field_DGV->AllowUserToResizeRows = false;
 			this->Field_DGV->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
-			this->Field_DGV->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->Field_DGV->ColumnHeadersVisible = false;
 			this->Field_DGV->Location = System::Drawing::Point(13, 12);
 			this->Field_DGV->Name = L"Field_DGV";
 			this->Field_DGV->RowHeadersVisible = false;
 			this->Field_DGV->RowTemplate->Height = 21;
-			this->Field_DGV->Size = System::Drawing::Size(240, 192);
+			this->Field_DGV->Size = System::Drawing::Size(240, 240);
 			this->Field_DGV->TabIndex = 0;
 			this->Field_DGV->CellMouseClick += gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MyForm::Field_DGV_CellMouseClick);
 			// 
@@ -161,7 +162,7 @@ namespace MineSweeperSample {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(383, 261);
+			this->ClientSize = System::Drawing::Size(400, 310);
 			this->Controls->Add(this->SetButton);
 			this->Controls->Add(this->bomb);
 			this->Controls->Add(this->label2);

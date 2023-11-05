@@ -49,4 +49,9 @@
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyForm.resx">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
